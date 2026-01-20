@@ -20,7 +20,7 @@ export function renderTable(headers, rows, container) {
 
     headers.forEach(header => {
         const th = document.createElement('th');
-        th.className = 'border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700 select-none';
+        th.className = 'border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700 select-none sticky top-0 z-10 bg-gray-50';
         th.textContent = header;
         th.dataset.key = header; // Persist key
         trHead.appendChild(th);
