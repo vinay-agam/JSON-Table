@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON ↔ Table Converter</title>
+</head>
+
+<body class="bg-gray-50 text-gray-900 h-screen flex flex-col overflow-hidden">
+
+  <!-- Top Ad Placeholder -->
+  <div id="ad-top" class="h-16 bg-gray-200 flex items-center justify-center border-b border-gray-300">
+    <span class="text-gray-500 text-sm">Ad Space (Top Banner)</span>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-4">
+      <h1 class="text-xl font-bold text-blue-600">JSON ↔ Table</h1>
+      <div class="flex gap-2">
+      <button id="btn-example" class="px-3 py-1 text-sm border rounded hover:bg-gray-50" title="Load Example JSON">Example JSON</button>
+        <button id="btn-clear" class="px-3 py-1 text-sm border rounded text-red-600 hover:bg-red-50">Clear</button>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <!-- Optional controls -->
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 flex overflow-hidden">
+    
+    <!-- JSON Pane -->
+    <section class="flex-1 flex flex-col border-r border-gray-200 min-w-[300px]">
+      <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+        <h2 class="font-semibold text-sm text-gray-700">JSON Input</h2>
+        <div class="flex gap-2">
+          <button id="btn-copy-json" class="text-xs bg-white border px-2 py-1 rounded hover:bg-gray-50">Copy JSON</button>
+          <button id="btn-prettify-json" class="text-xs bg-white border px-2 py-1 rounded hover:bg-gray-50">Pretty</button>
+          <button id="btn-minify-json" class="text-xs bg-white border px-2 py-1 rounded hover:bg-gray-50">Compact</button>
+        </div>
+      </div>
+      <div class="relative flex-1">
+        <textarea id="json-editor"
+          class="absolute inset-0 w-full h-full p-4 font-mono text-sm resize-none outline-none focus:ring-2 ring-inset ring-blue-500"
+          placeholder="Paste JSON here..."></textarea>
+        <div id="json-error"
+          class="hidden absolute bottom-0 left-0 right-0 bg-red-100 text-red-700 text-xs p-2 border-t border-red-200">
+          Error parsing JSON
+        </div>
+      </div>
+    </section>
+
+    <!-- Table Pane -->
+    <section class="flex-1 flex flex-col min-w-[300px] overflow-hidden">
+      <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+        <h2 class="font-semibold text-sm text-gray-700">Table Editor</h2>
+        <button id="btn-copy-table" class="text-xs bg-white border px-2 py-1 rounded hover:bg-gray-50">Copy
+          Table</button>
+      </div>
+      <div class="flex-1 overflow-auto bg-white" id="table-container">
+        <!-- Table will be rendered here -->
+        <div class="p-8 text-center text-gray-400">
+          Paste JSON to generate table<br>or paste Excel data here
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Sidebar Ad (Desktop) -->
+    <aside
+      class="w-64 bg-gray-50 border-l border-gray-200 hidden lg:flex flex-col items-center justify-start py-4 gap-4 shrink-0">
+      <div class="w-60 h-64 bg-gray-200 flex items-center justify-center rounded">
+        <span class="text-gray-500 text-sm">Ad Space (Sidebar)</span>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Bottom Ad Placeholder -->
+  <div id="ad-bottom" class="h-16 bg-gray-200 flex items-center justify-center border-t border-gray-300 shrink-0">
+    <span class="text-gray-500 text-sm">Ad Space (Bottom Banner)</span>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
