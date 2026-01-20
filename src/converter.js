@@ -112,3 +112,65 @@ export function tableToTsv(headers, rows) {
 
     return headerRow + '\n' + dataRows;
 }
+
+/**
+ * Transposes the table data (swaps rows and columns).
+ * @param {string[]} headers 
+ * @param {Object[]} rows 
+ * @returns {Object} { headers: string[], rows: Object[] }
+ */
+export function transposeTable(headers, rows) {
+    if (!headers || headers.length === 0) return { headers: [], rows: [] };
+
+    // Use the first header of the original table as the first header of the new table
+    const pivotHeader = headers[0];
+
+    const newHeaders = [pivotHeader];
+
+    // Generate subsequent headers from the values in the first column of the original rows
+    rows.forEach((row, index) => {
+        let label = row[pivotHeader];
+
+        // Handle non-string or empty values
+        if (label === null || label === undefined || (typeof label === 'string' && label.trim() === '')) {
+            label = `Column ${index + 1}`;
+        } else if (typeof label === 'object') {
+            // If the value is an object/array, stringify it or use a fallback
+            label = `Column ${index + 1}`;
+        }
+
+        let uniqueLabel = String(label);
+
+        // Ensure uniqueness (simple increment)
+        let originalLabel = uniqueLabel;
+        let counter = 2;
+        while (newHeaders.includes(uniqueLabel)) {
+            uniqueLabel = `${originalLabel} ${counter}`;
+            counter++;
+        }
+
+        newHeaders.push(uniqueLabel);
+    });
+
+    // Create new rows from the remaining headers
+    // If original was single column, we just have headers now (valid state)
+    const remainingHeaders = headers.slice(1);
+
+    const newRows = remainingHeaders.map(headerKey => {
+        const rowData = {};
+
+        // First column contains the key name
+        rowData[pivotHeader] = headerKey;
+
+        rows.forEach((row, index) => {
+            // Map values to the newly generated headers
+            // newHeaders[0] is pivot, newHeaders[1] is row 0, etc.
+            const colHeader = newHeaders[index + 1];
+            rowData[colHeader] = row[headerKey];
+        });
+
+        return rowData;
+    });
+
+    return { headers: newHeaders, rows: newRows };
+}

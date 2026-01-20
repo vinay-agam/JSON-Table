@@ -1,5 +1,5 @@
 import './style.css';
-import { jsonToTable, tableToJson, tableToTsv } from './converter.js';
+import { jsonToTable, tableToJson, tableToTsv, transposeTable } from './converter.js';
 import { renderTable, getTableData, showJsonError, hideJsonError } from './ui.js';
 import { HistoryManager } from './history.js';
 
@@ -15,6 +15,7 @@ const btnCopyJson = document.getElementById('btn-copy-json');
 const btnPrettifyJson = document.getElementById('btn-prettify-json');
 const btnMinifyJson = document.getElementById('btn-minify-json');
 const btnCopyTable = document.getElementById('btn-copy-table');
+const btnTranspose = document.getElementById('btn-transpose');
 
 const history = new HistoryManager();
 let isUpdatingJson = false;
@@ -161,6 +162,30 @@ btnCopyTable?.addEventListener('click', () => {
     console.error('Failed to copy: ', err);
     showToast('Copy Failed');
   });
+});
+
+btnTranspose?.addEventListener('click', () => {
+  const { headers, rows } = getTableData(tableContainer);
+  if (headers.length === 0) {
+    showToast('Table is empty');
+    return;
+  }
+
+  const transposed = transposeTable(headers, rows);
+
+  // Render new table
+  renderTable(transposed.headers, transposed.rows, tableContainer);
+
+  // Update JSON to reflect the structure change
+  const finalJson = tableToJson(transposed.headers, transposed.rows);
+  const jsonStr = JSON.stringify(finalJson, null, 2);
+
+  isUpdatingJson = true;
+  jsonEditor.value = jsonStr;
+  isUpdatingJson = false;
+
+  saveToHistory();
+  showToast('Table Transposed');
 });
 
 
